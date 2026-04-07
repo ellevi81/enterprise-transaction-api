@@ -262,7 +262,7 @@ Documento cada trade-off no porque alguien lo requiera, sino porque opero bajo u
 **Santiago Levi** — Cloud Architect · System Internals & Kernel Linux
 16 años diseñando, optimizando y resolviendo problemas a nivel de sistema operativo.
 
-[LinkedIn](https://www.linkedin.com/in/santiago-levi-dev) · [GitHub](https://github.com/santiago-levi)
+[LinkedIn](https://www.linkedin.com/in/santiago-levi-dev) · [GitHub](https://github.com/ellevi81)
 
 ---
 
