@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: enterprise_db
+    environment:
+      POSTGRES_DB: transactions
+      [cite_start]POSTGRES_PASSWORD: admin_password [cite: 237]
+    ports:
+      - "5432:5432"
+
+  broker:
+    [cite_start]image: rabbitmq:3-management [cite: 238]
+    container_name: enterprise_broker
