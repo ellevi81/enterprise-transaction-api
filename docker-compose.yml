@@ -1,14 +1,108 @@
 version: '3.8'
+
 services:
-  db:
-    image: postgres:15
-    container_name: enterprise_db
+  transactions-db:
+    image: postgres:15-alpine
+    container_name: transactions_db
     environment:
-      POSTGRES_DB: transactions
-      [cite_start]POSTGRES_PASSWORD: admin_password [cite: 237]
+      POSTGRES_DB: transactions_db
+      POSTGRES_USER: txuser
+      POSTGRES_PASSWORD: txpass
     ports:
       - "5432:5432"
+    volumes:
+      - transactions_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U txuser -d transactions_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  broker:
-    [cite_start]image: rabbitmq:3-management [cite: 238]
-    container_name: enterprise_broker
+  audit-db:
+    image: postgres:15-alpine
+    container_name: audit_db
+    environment:
+      POSTGRES_DB: audit_db
+      POSTGRES_USER: audituser
+      POSTGRES_PASSWORD: auditpass
+    ports:
+      - "5433:5432"
+    volumes:
+      - audit_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U audituser -d audit_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  transaction-service:
+    build:
+      context: .
+      dockerfile: transaction-service/Dockerfile
+    container_name: transaction_service
+    ports:
+      - "8080:8080"
+    environment:
+      DB_USERNAME: txuser
+      DB_PASSWORD: txpass
+      SPRING_DATASOURCE_URL: jdbc:postgresql://transactions-db:5432/transactions_db
+      RABBITMQ_HOST: rabbitmq
+      JWT_SECRET: Y2hhbmdlLW1lLWluLXByb2R1Y3Rpb24tbXVzdC1iZS1hdC1sZWFzdC0zMi1jaGFyYWN0ZXJzLWxvbmc=
+    depends_on:
+      transactions-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  audit-service:
+    build:
+      context: .
+      dockerfile: audit-service/Dockerfile
+    container_name: audit_service
+    ports:
+      - "8081:8081"
+    environment:
+      DB_USERNAME: audituser
+      DB_PASSWORD: auditpass
+      SPRING_DATASOURCE_URL: jdbc:postgresql://audit-db:5432/audit_db
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      audit-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: notification-service/Dockerfile
+    container_name: notification_service
+    ports:
+      - "8082:8082"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  transactions_data:
+  audit_data:
+  rabbitmq_data:
