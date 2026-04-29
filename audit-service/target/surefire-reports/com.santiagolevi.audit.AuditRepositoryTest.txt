@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.santiagolevi.audit.AuditRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.651 s -- in com.santiagolevi.audit.AuditRepositoryTest

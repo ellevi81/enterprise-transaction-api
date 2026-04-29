@@ -1,0 +1,8 @@
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/AuditServiceApplication.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/config/InventoryEventListener.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/config/RabbitMQConfig.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/controller/AuditController.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/dto/TransactionEvent.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/model/AuditEntry.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/repository/AuditEntryRepository.java
+/home/levi/claude/enterprise-transaction-api/audit-service/src/main/java/com/santiagolevi/audit/service/AuditService.java
