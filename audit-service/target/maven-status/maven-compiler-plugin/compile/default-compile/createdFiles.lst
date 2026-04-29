@@ -1,9 +1,0 @@
-com/santiagolevi/audit/model/AuditEntry$AuditEntryBuilder.class
-com/santiagolevi/audit/controller/AuditController.class
-com/santiagolevi/audit/repository/AuditEntryRepository.class
-com/santiagolevi/audit/service/AuditService.class
-com/santiagolevi/audit/AuditServiceApplication.class
-com/santiagolevi/audit/config/RabbitMQConfig.class
-com/santiagolevi/audit/dto/TransactionEvent.class
-com/santiagolevi/audit/config/InventoryEventListener.class
-com/santiagolevi/audit/model/AuditEntry.class
